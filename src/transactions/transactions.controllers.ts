@@ -38,6 +38,7 @@ export class TransactionController {
     return await this.transactionService.generateTransactionReference(user);
   }
 
+  @UseGuards(JwtCookieAuthGuard)
   @Get('all-transactions')
   async getUserTransactions(@CurrentUser() user: User): Promise<Transaction[]> {
     const transactions = await this.transactionRepository.find({
