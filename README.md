@@ -13,14 +13,13 @@ This is a NestJS application that implements an authentication system with a wal
 1. Clone the repository
 2. Install dependencies with `yarn install`
 3. Create a `.env` file in the root directory with the following variables:
-
-DB_HOST_DEV=<database host>
-DB_PORT=<database port>
-DB_USERNAME=<database username>
-DB_PASSWORD=<database password>
-DB_NAME=<database name>
-JWT_SECRETE=<secrete key for JWT>
-HASH_SALT=<number of salrounds for bcrypt>
+   DB_HOST_DEV='<database host>'
+   DB_PORT='<database port>'
+   DB_USERNAME='<database username>'
+   DB_PASSWORD='<database password>'
+   DB_NAME='<database name>'
+   JWT_SECRETE='<secrete key for JWT>'
+   HASH_SALT='<number of salrounds for bcrypt>'
 
 4. Start the server with `npm run start:dev`
 
