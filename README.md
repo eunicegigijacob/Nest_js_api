@@ -35,8 +35,9 @@ The following endpoints are available:
 - `POST /api/wallet/fund`: Fund user's wallet.
 - `POST /api/wallet/debit`: Debit user's wallet.
 - `GET /api/wallet/balance`: Get user's wallet balance.
-- `GET /api/transaction/all-transactions`: Get user's wallet transactions.
-- `GET /transactions`: Get all transactions (admin only).
+- `GET /api/transaction/user`: Get user's wallet transactions.
+- `GET /api/transaction/all-transactions`: Get all transactions (admin only).
+- `/api/transaction/generate-transaction-ref`: Generate transactionREf.
 
 ## Database
 

@@ -55,4 +55,8 @@ export class TransactionService {
 
     return !existingUser; // Returns true if no user is found with the same transaction reference
   }
+
+  async getAllTransactions(): Promise<Transaction[]> {
+    return this.transactionRepository.find();
+  }
 }
