@@ -46,7 +46,7 @@ export class UsersController {
 
   @UseGuards(JwtCookieAuthGuard, RoleGuard)
   @Role(Roles.ADMIN)
-  @Get('/all_users')
+  @Get('/all')
   async getAllUsers(): Promise<User[]> {
     return this.usersService.findAllUsers();
   }

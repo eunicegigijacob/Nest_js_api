@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Wallet } from 'src/wallet/wallet.entity';
 
 @Entity()
 export class User {
@@ -34,4 +35,7 @@ export class User {
   @Column({ default: 'USER' })
   @IsString()
   role: string;
+
+  @OneToOne(() => Wallet, (wallet) => wallet.user)
+  wallet: Wallet;
 }

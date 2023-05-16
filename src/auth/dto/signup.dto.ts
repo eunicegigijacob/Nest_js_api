@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsOptional,
 } from 'class-validator';
+import { Wallet } from 'src/wallet/wallet.entity';
 
 export class SignUpDTO {
   @IsNotEmpty()
@@ -32,4 +33,7 @@ export class SignUpDTO {
   @IsOptional()
   @IsString()
   role: string;
+
+  @IsOptional()
+  wallet: Wallet;
 }

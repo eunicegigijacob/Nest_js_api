@@ -21,9 +21,10 @@ export class AuthService {
     try {
       await this.usersService.createUser(signUpDTO);
     } catch (error) {
+      console.log(error);
       status = {
         success: false,
-        message: error,
+        message: error.message,
       };
     }
     return status;

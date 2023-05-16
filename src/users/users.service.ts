@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -7,16 +7,22 @@ import { Repository } from 'typeorm';
 import { LoginDTO } from 'src/auth/dto/login.dto';
 import { SignUpDTO } from 'src/auth/dto/signup.dto';
 import { UpdateUserDTO } from './dto/updateUser.dto';
+import { Wallet } from 'src/wallet/wallet.entity';
+import { WalletService } from 'src/wallet/wallet.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Wallet)
+    private walletRepository: Repository<Wallet>,
     private jwtService: JwtService,
+    @Inject(WalletService)
+    private walletService: WalletService,
   ) {}
 
-  async createUser(signUpDTO: SignUpDTO): Promise<User> {
+  async createUser(signUpDTO: SignUpDTO): Promise<any> {
     const { email, password, firstName, lastName, address, role } = signUpDTO;
     const existingUser = await this.findUserByEmail(email);
 
@@ -24,19 +30,27 @@ export class UsersService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
-    const hashedPassword = await bcrypt.hash(password, process.env.HASH_SALT);
-    console.log(hashedPassword);
+    const hashedPassword = await bcrypt.hash(password, +process.env.HASH_SALT);
 
-    const user = new User();
-    user.email = email;
-    user.password = hashedPassword;
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.address = address;
-    user.role = role;
+    const user = this.userRepository.create({
+      firstName,
+      lastName,
+      address,
+      role,
+      email,
+      password: hashedPassword, // Save the hashed password
+    });
 
     await this.userRepository.save(user);
-    return user;
+
+    //create wallet for user
+    const wallet = await this.walletService.createWallet({
+      balance: parseInt('0'),
+      user,
+      tansactionRef: '',
+      transactions: [],
+    });
+    return [user, wallet];
   }
 
   async findUserById(id: number) {
